@@ -1,0 +1,8 @@
+{
+  "name": "web-forge",
+  "private": true,
+  "workspaces": [
+    "ui-builder"
+  ],
+  "version": "0.0.1"
+}
