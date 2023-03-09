@@ -18,7 +18,7 @@ export function Droppable({
     );
     const combinedClassName = useMemo(
         () => `${className} ${isOver ? "border border-blue-600" : ""}`,
-        [isOver],
+        [isOver, className],
     );
 
     return (

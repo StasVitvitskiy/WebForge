@@ -1,18 +1,20 @@
 import React from "react";
 import { EditorBuildingBlock } from "./EditorBuildingBlock";
-import { UiModelBuildingBlockAttributes } from "~/Editor/UiModel/UiModelBuildingBlock";
+import { Droppable } from "~/Editor/Canvas/Droppable";
 
-function Renderer({
-    children,
-    className,
-    style,
-}: React.PropsWithChildren<UiModelBuildingBlockAttributes>) {
+const Renderer: EditorBuildingBlock["Renderer"] = ({ children, ...props }) => {
+    const {
+        attributes: { className, style },
+    } = props;
+
     return (
-        <div className={className} style={style}>
-            {children}
-        </div>
+        <Droppable {...props}>
+            <div className={className} style={style}>
+                {children}
+            </div>
+        </Droppable>
     );
-}
+};
 
 export const RootBuildingBlock: EditorBuildingBlock = {
     name: "Root",
