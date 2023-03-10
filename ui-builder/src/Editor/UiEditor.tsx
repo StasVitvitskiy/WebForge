@@ -12,6 +12,11 @@ import { DraggableBlockFigure } from "~/Editor/LeftPanel/DraggableBlockFigure";
 import { insertBlock } from "~/Editor/UiModel/insertBlock";
 import { UiEditorContext } from "~/Editor/UiEditorContext";
 import { noop } from "lodash";
+import { SortableTree } from "~/Editor/DndKit/SortableTree/SortableTree";
+import { getSortableTree } from "~/Editor/UiModel/getSortableTree";
+import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
+import { updateModelOnSort } from "~/Editor/UiModel/updateModelOnSort";
+import { DndKitSortableTreeItems } from "~/Editor/DndKit/SortableTree/TreeItems";
 
 const SidePanel = styled.div`
     [aria-label="Left side panel tabs"] {
@@ -23,6 +28,11 @@ const SidePanel = styled.div`
             justify-content: center;
             align-content: center;
         }
+    }
+
+    [role="tabpanel"] {
+        padding: 0;
+        padding-top: 16px;
     }
 `;
 const BlocksIcon = styled(MdOutlineWidthWide)`
@@ -62,12 +72,29 @@ export function UiEditor({
         },
         [uiModel, draggingBlockId, buildingBlocks, onChange],
     );
+    const onTreeItemClick = useCallback(
+        (id: string) => {
+            onChange?.(setActiveElement({ uiModel, activeElement: id }));
+        },
+        [uiModel, onChange],
+    );
+    const onSortableTreeChange = useCallback(
+        (newTree: DndKitSortableTreeItems) => {
+            onChange?.(
+                updateModelOnSort({
+                    sortableTree: newTree,
+                    uiModel,
+                }),
+            );
+        },
+        [uiModel, onChange],
+    );
 
     return (
         <UiEditorContext.Provider value={{ onChange, uiModel }}>
             <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
                 <div className="h-full grid grid-cols-[20%_1fr_20%]">
-                    <SidePanel className="bg-gray-800 text-white p-4">
+                    <SidePanel className="bg-gray-800 text-white py-4">
                         <Tabs.Group
                             aria-label="Left side panel tabs"
                             style="underline"
@@ -78,16 +105,24 @@ export function UiEditor({
                                 aria-title="Blocks"
                                 icon={BlocksIcon}
                             >
-                                <DraggableBlocks
-                                    buildingBlocks={buildingBlocks}
-                                />
+                                <div className="p-4">
+                                    <DraggableBlocks
+                                        buildingBlocks={buildingBlocks}
+                                    />
+                                </div>
                             </Tabs.Item>
                             <Tabs.Item
                                 title=""
                                 icon={UiTreeIcon}
                                 aria-title="UI tree"
                             >
-                                UI tree
+                                <SortableTree
+                                    key={Date.now()}
+                                    defaultItems={getSortableTree(uiModel)}
+                                    onTreeItemClick={onTreeItemClick}
+                                    selectedItemId={uiModel.activeElement}
+                                    onChange={onSortableTreeChange}
+                                />
                             </Tabs.Item>
                         </Tabs.Group>
                     </SidePanel>

@@ -1,10 +1,11 @@
 import { UiModel } from "~/Editor/UiModel/UiModel";
 import { EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import { UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 import { omit } from "lodash";
 import { UiEditorContext } from "~/Editor/UiEditorContext";
 import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
+import { canvasRootBlock } from "~/Editor/Canvas/canvasRootBlock";
 
 export function Canvas({
     uiModel,
@@ -13,19 +14,22 @@ export function Canvas({
     uiModel: UiModel;
     buildingBlocks: Record<string, EditorBuildingBlock>;
 }) {
+    const rootUiBlock = useMemo(
+        () => ({
+            ...canvasRootBlock,
+            id: uiModel.id,
+            blocks: uiModel.blocks,
+        }),
+        [uiModel],
+    );
+
     return (
-        <div>
-            {uiModel.blocks.map((block) => {
-                return (
-                    <BlockWithChildren
-                        key={block.id}
-                        uiBlock={block}
-                        buildingBlocks={buildingBlocks}
-                        activeElement={uiModel.activeElement}
-                    />
-                );
-            })}
-        </div>
+        <BlockWithChildren
+            key={rootUiBlock.id}
+            uiBlock={rootUiBlock}
+            buildingBlocks={buildingBlocks}
+            activeElement={uiModel.activeElement}
+        />
     );
 }
 

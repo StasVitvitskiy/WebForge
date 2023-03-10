@@ -1,7 +1,7 @@
 import { UiModel } from "~/Editor/UiModel/UiModel";
 import { EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
 import { UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
-import { v4 as uuidv4 } from "uuid";
+import { generateNewBlockId } from "~/Editor/UiModel/generateNewBlockId";
 
 export function insertBlock({
     uiModel,
@@ -12,15 +12,15 @@ export function insertBlock({
     parentId: string;
     newBlock: EditorBuildingBlock;
 }): UiModel {
-    const newBlockId = uuidv4();
+    const newBlockId = generateNewBlockId();
     return {
         ...uiModel,
         blocks: insertChildBlock({
-            blocks: uiModel.blocks,
+            blocks: [uiModel],
             parentId,
             newBlock,
             newBlockId,
-        }),
+        })?.[0]?.blocks as UiModelBuildingBlock[],
         activeElement: newBlockId,
     };
 }
@@ -40,11 +40,13 @@ function insertChildBlock({
         if (block.id === parentId) {
             return {
                 ...block,
-                blocks: (block.blocks || []).concat({
-                    type: newBlock.name,
-                    attributes: {},
-                    id: newBlockId,
-                }),
+                blocks: (block.blocks || []).concat(
+                    newBlock?.createUiBlock?.(newBlockId) || {
+                        type: newBlock.name,
+                        attributes: {},
+                        id: newBlockId,
+                    },
+                ),
             };
         }
 

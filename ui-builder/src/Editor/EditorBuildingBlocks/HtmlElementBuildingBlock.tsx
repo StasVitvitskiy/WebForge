@@ -4,16 +4,11 @@ import { EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildin
 import { EditorBuildingBlockGroup } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlockGroup";
 import { ImHtmlFive } from "react-icons/im";
 import { Droppable } from "~/Editor/Canvas/Droppable";
+import { UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 
 const Renderer: EditorBuildingBlock["Renderer"] = ({ children, ...props }) => {
     const {
-        attributes: {
-            tagName = "div",
-            className,
-            style = {
-                height: "200px",
-            },
-        },
+        attributes: { tagName, className, style },
     } = props;
 
     const elementWithCustomTagName = React.createElement(tagName as string, {
@@ -35,4 +30,14 @@ export const HtmlElementBuilderBlock: EditorBuildingBlock = {
     Renderer,
     group: EditorBuildingBlockGroup.Basics,
     Icon,
+    createUiBlock: (id: string): UiModelBuildingBlock => ({
+        id,
+        type: HtmlElementBuilderBlock.name,
+        attributes: {
+            tagName: "div",
+            style: {
+                height: "200px",
+            },
+        },
+    }),
 };

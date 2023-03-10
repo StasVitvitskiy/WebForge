@@ -8,4 +8,5 @@ export interface EditorBuildingBlock {
     >;
     group?: string;
     Icon?: React.ComponentType<Record<string | number | symbol, unknown>>;
+    createUiBlock?: (id: string) => UiModelBuildingBlock;
 }
