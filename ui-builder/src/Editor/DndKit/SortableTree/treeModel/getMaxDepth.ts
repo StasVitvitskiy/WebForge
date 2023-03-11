@@ -1,4 +1,4 @@
-import { FlattenedItem } from "~/Editor/DndKit/SortableTree/TreeItems";
+import { FlattenedItem } from "./TreeItems";
 
 export function getMaxDepth({ previousItem }: { previousItem: FlattenedItem }) {
     if (previousItem) {

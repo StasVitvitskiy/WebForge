@@ -5,8 +5,8 @@ import {
     KeyboardCoordinateGetter,
     DroppableContainer,
 } from "@dnd-kit/core";
-import { getProjection } from "./getProjection";
-import { SensorContext } from "./SensorContext";
+import { getProjection } from "~/Editor/DndKit/SortableTree/treeModel/getProjection";
+import { SensorContext } from "~/Editor/DndKit/SortableTree/SensorContext";
 
 const directions: string[] = [
     KeyboardCode.Down,

@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import {
-    Announcements,
     DndContext,
     closestCenter,
     KeyboardSensor,
@@ -31,18 +30,19 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import { SortableTreeItem } from "./SortableTreeItem";
+import { SortableTreeItem } from "./SortableTreeItem/SortableTreeItem";
 import { CSS } from "@dnd-kit/utilities";
-import { FlattenedItem, TreeItems } from "./TreeItems";
-import { removeChildrenOf } from "./removeChildrenOf";
-import { flattenTree } from "./flattenTree";
-import { getProjection } from "./getProjection";
+import { FlattenedItem, TreeItems } from "./treeModel/TreeItems";
+import { removeChildrenOf } from "./treeModel/removeChildrenOf";
+import { flattenTree } from "./treeModel/flattenTree";
+import { getProjection } from "./treeModel/getProjection";
 import { SensorContext } from "./SensorContext";
-import { sortableTreeKeyboardCoordinates } from "./keyboardCoordinates";
-import { getChildCount } from "./getChildCount";
-import { buildTree } from "./buildTree";
-import { removeItem } from "./removeItem";
-import { setProperty } from "./setProperty";
+import { sortableTreeKeyboardCoordinates } from "./platform/keyboardCoordinates";
+import { getChildCount } from "./treeModel/getChildCount";
+import { buildTree } from "./treeModel/buildTree";
+import { removeItem } from "./treeModel/removeItem";
+import { setProperty } from "./treeModel/setProperty";
+import { useAnnouncements } from "./announcements";
 
 const measuring = {
     droppable: {
@@ -85,6 +85,7 @@ interface SortableTreeProps {
     onTreeItemClick?: (id: string) => void;
     selectedItemId?: string;
     onChange?: (newTree: TreeItems) => void;
+    onItemNameChange?: (id: string, name: string) => void;
 }
 export function SortableTree({
     onTreeItemClick,
@@ -95,6 +96,7 @@ export function SortableTree({
     removable = true,
     selectedItemId,
     onChange,
+    onItemNameChange,
 }: SortableTreeProps) {
     const [items, setLocalItems] = useState(() => defaultItems);
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -172,23 +174,12 @@ export function SortableTree({
         };
     }, [flattenedItems, offsetLeft]);
 
-    const announcements: Announcements = {
-        onDragStart({ active }) {
-            return `Picked up ${active.id}.`;
-        },
-        onDragMove({ active, over }) {
-            return getMovementAnnouncement("onDragMove", active.id, over?.id);
-        },
-        onDragOver({ active, over }) {
-            return getMovementAnnouncement("onDragOver", active.id, over?.id);
-        },
-        onDragEnd({ active, over }) {
-            return getMovementAnnouncement("onDragEnd", active.id, over?.id);
-        },
-        onDragCancel({ active }) {
-            return `Moving was cancelled. ${active.id} was dropped in its original position.`;
-        },
-    };
+    const announcements = useAnnouncements({
+        projected,
+        currentPosition,
+        setCurrentPosition,
+        items: items as TreeItems,
+    });
 
     return (
         <DndContext
@@ -210,7 +201,12 @@ export function SortableTree({
                     ({ id, children, collapsed, name, depth }) => {
                         return (
                             <SortableTreeItem
-                                onClick={() => onTreeItemClick?.(id as string)}
+                                onClick={() => {
+                                    onTreeItemClick?.(id as string);
+                                }}
+                                onNameChange={(name) => {
+                                    onItemNameChange?.(id as string, name);
+                                }}
                                 key={id}
                                 id={id}
                                 value={name}
@@ -259,7 +255,7 @@ export function SortableTree({
                                         activeId,
                                     ) + 1
                                 }
-                                value={activeId.toString()}
+                                value={activeItem.name}
                                 indentationWidth={indentationWidth}
                             />
                         ) : null}
@@ -344,76 +340,6 @@ export function SortableTree({
                 return !value;
             }),
         );
-    }
-
-    function getMovementAnnouncement(
-        eventName: string,
-        activeId: UniqueIdentifier,
-        overId?: UniqueIdentifier,
-    ) {
-        if (overId && projected) {
-            if (eventName !== "onDragEnd") {
-                if (
-                    currentPosition &&
-                    projected.parentId === currentPosition.parentId &&
-                    overId === currentPosition.overId
-                ) {
-                    return;
-                } else {
-                    setCurrentPosition({
-                        parentId: projected.parentId,
-                        overId,
-                    });
-                }
-            }
-
-            const clonedItems: FlattenedItem[] = JSON.parse(
-                JSON.stringify(flattenTree(items as TreeItems)),
-            );
-            const overIndex = clonedItems.findIndex(({ id }) => id === overId);
-            const activeIndex = clonedItems.findIndex(
-                ({ id }) => id === activeId,
-            );
-            const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
-
-            const previousItem = sortedItems[overIndex - 1];
-
-            let announcement;
-            const movedVerb = eventName === "onDragEnd" ? "dropped" : "moved";
-            const nestedVerb = eventName === "onDragEnd" ? "dropped" : "nested";
-
-            if (!previousItem) {
-                const nextItem = sortedItems[overIndex + 1];
-                announcement = `${activeId} was ${movedVerb} before ${
-                    nextItem!.id
-                }.`;
-            } else {
-                if (projected.depth > previousItem.depth) {
-                    announcement = `${activeId} was ${nestedVerb} under ${previousItem.id}.`;
-                } else {
-                    let previousSibling: FlattenedItem | undefined =
-                        previousItem;
-                    while (
-                        previousSibling &&
-                        projected.depth < previousSibling.depth
-                    ) {
-                        const parentId: UniqueIdentifier | null =
-                            previousSibling.parentId;
-                        previousSibling = sortedItems.find(
-                            ({ id }) => id === parentId,
-                        );
-                    }
-
-                    if (previousSibling) {
-                        announcement = `${activeId} was ${movedVerb} after ${previousSibling.id}.`;
-                    }
-                }
-            }
-
-            return announcement;
-        }
-
-        return;
     }
 }
 

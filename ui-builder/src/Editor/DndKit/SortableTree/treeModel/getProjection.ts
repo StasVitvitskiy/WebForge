@@ -1,9 +1,9 @@
-import { FlattenedItem } from "~/Editor/DndKit/SortableTree/TreeItems";
+import { FlattenedItem } from "./TreeItems";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { getDragDepth } from "./getDragDepth";
 import { getMaxDepth } from "./getMaxDepth";
-import { getMinDepth } from "~/Editor/DndKit/SortableTree/getMinDepth";
+import { getMinDepth } from "./getMinDepth";
 
 export function getProjection(
     items: FlattenedItem[],

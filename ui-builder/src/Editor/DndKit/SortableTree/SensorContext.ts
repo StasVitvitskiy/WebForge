@@ -1,4 +1,4 @@
-import { FlattenedItem } from "~/Editor/DndKit/SortableTree/TreeItems";
+import { FlattenedItem } from "~/Editor/DndKit/SortableTree/treeModel/TreeItems";
 import type { MutableRefObject } from "react";
 
 export type SensorContext = MutableRefObject<{

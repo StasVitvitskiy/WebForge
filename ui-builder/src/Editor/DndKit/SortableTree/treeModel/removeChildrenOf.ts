@@ -1,5 +1,5 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
-import { FlattenedItem } from "~/Editor/DndKit/SortableTree/TreeItems";
+import { FlattenedItem } from "./TreeItems";
 
 export function removeChildrenOf(
     items: FlattenedItem[],

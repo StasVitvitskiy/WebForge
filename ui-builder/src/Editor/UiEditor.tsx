@@ -16,7 +16,8 @@ import { SortableTree } from "~/Editor/DndKit/SortableTree/SortableTree";
 import { getSortableTree } from "~/Editor/UiModel/getSortableTree";
 import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
 import { updateModelOnSort } from "~/Editor/UiModel/updateModelOnSort";
-import { DndKitSortableTreeItems } from "~/Editor/DndKit/SortableTree/TreeItems";
+import { DndKitSortableTreeItems } from "~/Editor/DndKit/SortableTree/treeModel/TreeItems";
+import { changeUiBlockName } from "~/Editor/UiModel/changeUiBlockName";
 
 const SidePanel = styled.div`
     [aria-label="Left side panel tabs"] {
@@ -122,6 +123,15 @@ export function UiEditor({
                                     onTreeItemClick={onTreeItemClick}
                                     selectedItemId={uiModel.activeElement}
                                     onChange={onSortableTreeChange}
+                                    onItemNameChange={(id, name) => {
+                                        onChange?.(
+                                            changeUiBlockName({
+                                                uiModel,
+                                                id,
+                                                name,
+                                            }),
+                                        );
+                                    }}
                                 />
                             </Tabs.Item>
                         </Tabs.Group>

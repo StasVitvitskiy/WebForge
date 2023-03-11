@@ -1,4 +1,10 @@
-import React, { forwardRef, HTMLAttributes } from "react";
+import React, {
+    forwardRef,
+    HTMLAttributes,
+    useCallback,
+    useMemo,
+    useState,
+} from "react";
 import { styled } from "@linaria/react";
 import classNames from "classnames";
 import { Handle } from "./Handle";
@@ -14,9 +20,7 @@ const Wrapper = styled.li`
   &.clone {
     display: inline-block;
     pointer-events: none;
-    padding: 0;
-    padding-left: 10px;
-    padding-top: 5px;
+    padding: 5px 0 0 10px; 
 
     .TreeItem {
       --vertical-padding: 5px;
@@ -145,6 +149,7 @@ export interface TreeItemProps
     onCollapse?(): void;
     onRemove?(): void;
     wrapperRef?(node: HTMLLIElement): void;
+    onNameChange?: (name: string) => void;
 }
 
 export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
@@ -165,52 +170,105 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
             style,
             value,
             wrapperRef,
+            onNameChange,
             ...props
         },
         ref,
     ) => {
-        return (
-            <Wrapper
-                ref={wrapperRef}
-                style={
-                    {
-                        "--spacing": `${indentationWidth * depth}px`,
-                    } as React.CSSProperties
-                }
-                {...props}
-                className={classNames(
+        const [editMode, setEditMode] = useState(false);
+        const wrapperStyle = useMemo(
+            () =>
+                ({
+                    "--spacing": `${indentationWidth * depth}px`,
+                } as React.CSSProperties),
+            [indentationWidth, depth],
+        );
+        const combinedClassName = useMemo(
+            () =>
+                classNames(
                     clone && "clone",
                     ghost && "ghost",
                     indicator && "indicator",
                     disableSelection && "disableSelection",
                     disableInteraction && "disableInteraction",
                     props.className,
-                )}
+                ),
+            [
+                clone,
+                ghost,
+                indicator,
+                disableSelection,
+                disableInteraction,
+                props.className,
+            ],
+        );
+        const actionClassName = useMemo(
+            () => classNames(".Collapse", collapsed && ".collapsed"),
+            [collapsed],
+        );
+        const onNameClick = useCallback(
+            (e: React.MouseEvent<HTMLDivElement>) => {
+                e.stopPropagation();
+                e.nativeEvent.stopImmediatePropagation();
+
+                if (e.detail === 2) {
+                    setEditMode(true);
+                }
+            },
+            [],
+        );
+        const onRemoveClick = useCallback(
+            (e: React.SyntheticEvent) => {
+                e.stopPropagation();
+                e.nativeEvent.stopImmediatePropagation();
+
+                onRemove?.();
+            },
+            [onRemove],
+        );
+        const onEditInputKeyPress = useCallback(
+            (e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === "Enter") {
+                    onNameChange?.(
+                        (e.nativeEvent?.target as HTMLInputElement)
+                            ?.value as string,
+                    );
+                    setEditMode(false);
+                }
+            },
+            [onNameChange],
+        );
+
+        return (
+            <Wrapper
+                ref={wrapperRef}
+                style={wrapperStyle}
+                {...props}
+                className={combinedClassName}
             >
                 <div className="TreeItem" ref={ref} style={style}>
                     <Handle {...handleProps} />
                     {onCollapse && (
                         <Action
                             onClick={onCollapse}
-                            className={classNames(
-                                ".Collapse",
-                                collapsed && ".collapsed",
-                            )}
+                            className={actionClassName}
                         >
                             {collapseIcon}
                         </Action>
                     )}
-                    <span className={"Text"}>{value}</span>
-                    {!clone && onRemove && (
-                        <Remove
-                            onClick={(e: React.SyntheticEvent) => {
-                                e.stopPropagation();
-                                e.nativeEvent.stopImmediatePropagation();
+                    <div onClick={onNameClick} className={"Text"}>
+                        {!editMode && value}
 
-                                onRemove();
-                            }}
-                        />
-                    )}
+                        {editMode && (
+                            <input
+                                onKeyPress={onEditInputKeyPress}
+                                type="text"
+                                defaultValue={value}
+                                className="text-blue-600"
+                            />
+                        )}
+                    </div>
+                    {!clone && onRemove && <Remove onClick={onRemoveClick} />}
                     {clone && childCount && childCount > 1 ? (
                         <span className={"Count"}>{childCount}</span>
                     ) : null}
