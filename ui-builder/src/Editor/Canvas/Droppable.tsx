@@ -4,6 +4,8 @@ import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock
 
 export function Droppable({
     id,
+    type,
+    name,
     children,
     attributes: { className, style },
 }: React.PropsWithChildren<UiModelBuildingBlock>): JSX.Element {
@@ -22,7 +24,12 @@ export function Droppable({
     );
 
     return (
-        <div ref={setNodeRef} className={combinedClassName} style={css}>
+        <div
+            data-droppable={type || name}
+            ref={setNodeRef}
+            className={combinedClassName}
+            style={css}
+        >
             {children}
         </div>
     );

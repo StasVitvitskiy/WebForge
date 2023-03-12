@@ -1,12 +1,20 @@
 import { Tabs } from "flowbite-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { styled } from "@linaria/react";
 import { MdOutlineWidthWide, MdOutlineSchema } from "react-icons/md";
 import { type UiModel } from "~/Editor/UiModel/UiModel";
 import { type EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
 import { Canvas } from "~/Editor/Canvas/Canvas";
 import { DraggableBlocks } from "~/Editor/LeftPanel/DraggableBlocks";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+    DndContext,
+    DragOverlay,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
 import {
     type DragEndEvent,
     type DragStartEvent,
@@ -52,10 +60,14 @@ export function UiEditor({
     uiModel,
     buildingBlocks,
     onChange = noop,
+    leftPanel,
 }: {
     uiModel: UiModel;
     buildingBlocks: Record<string, EditorBuildingBlock>;
     onChange?: (newModel: UiModel) => void;
+    leftPanel?: {
+        activeTab?: "BuildingBlocks" | "UiTree";
+    };
 }): JSX.Element {
     const [draggingBlockId, setDraggingBlockId] = useState<string | null>(null);
     const onDragStart = useCallback((event: DragStartEvent) => {
@@ -94,9 +106,28 @@ export function UiEditor({
         [uiModel, onChange],
     );
 
+    const activationConstraint = useMemo(
+        () => ({
+            distance: 15,
+        }),
+        [],
+    );
+    const mouseSensor = useSensor(MouseSensor, {
+        activationConstraint,
+    });
+    const touchSensor = useSensor(TouchSensor, {
+        activationConstraint,
+    });
+    const keyboardSensor = useSensor(KeyboardSensor, {});
+    const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
     return (
         <UiEditorContext.Provider value={{ onChange, uiModel }}>
-            <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+            <DndContext
+                onDragStart={onDragStart}
+                onDragEnd={onDragEnd}
+                sensors={sensors}
+            >
                 <div className="grid h-full grid-cols-[20%_1fr_20%]">
                     <SidePanel className="bg-gray-800 py-4 text-white">
                         <Tabs.Group
@@ -104,7 +135,9 @@ export function UiEditor({
                             style="underline"
                         >
                             <Tabs.Item
-                                active
+                                active={
+                                    leftPanel?.activeTab === "BuildingBlocks"
+                                }
                                 title=""
                                 aria-title="Blocks"
                                 icon={BlocksIcon}
@@ -116,6 +149,7 @@ export function UiEditor({
                                 </div>
                             </Tabs.Item>
                             <Tabs.Item
+                                active={leftPanel?.activeTab === "UiTree"}
                                 title=""
                                 icon={UiTreeIcon}
                                 aria-title="UI tree"

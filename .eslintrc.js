@@ -30,5 +30,9 @@ module.exports = {
         "@typescript-eslint/space-before-function-paren": ["error", "never"],
         indent: 0,
         "@typescript-eslint/indent": 0,
+        "no-console": "error",
+        "@typescript-eslint/method-signature-style": 0,
+        "@typescript-eslint/restrict-plus-operands": 0,
+        "@typescript-eslint/triple-slash-reference": 0,
     },
 };

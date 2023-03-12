@@ -44,7 +44,11 @@ export function DraggableBlocks({
                         <Accordion.Content>
                             {groups[groupName]?.map((block) => {
                                 return (
-                                    <Draggable key={block.name} id={block.name}>
+                                    <Draggable
+                                        key={block.name}
+                                        id={block.name}
+                                        data-draggable={block.name}
+                                    >
                                         <DraggableBlockFigure block={block} />
                                     </Draggable>
                                 );
