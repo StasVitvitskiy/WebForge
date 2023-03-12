@@ -1,40 +1,39 @@
-import { EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
-import { useMemo } from "react";
-import { groupBy } from "lodash";
-import { EditorBuildingBlockGroup } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlockGroup";
-import { Accordion } from "flowbite-react";
-import React from "react";
-import { styled } from "@linaria/react";
-import { Draggable } from "~/Editor/LeftPanel/Draggable";
-import { DraggableBlockFigure } from "~/Editor/LeftPanel/DraggableBlockFigure";
+import { type EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock"
+import React, { useMemo } from "react"
+import { groupBy } from "lodash"
+import { EditorBuildingBlockGroup } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlockGroup"
+import { Accordion } from "flowbite-react"
+import { styled } from "@linaria/react"
+import { Draggable } from "~/Editor/LeftPanel/Draggable"
+import { DraggableBlockFigure } from "~/Editor/LeftPanel/DraggableBlockFigure"
 
 const Wrapper = styled.div`
     button[type="button"] {
         padding: 10px;
     }
-`;
+`
 
 export function DraggableBlocks({
-    buildingBlocks,
+  buildingBlocks,
 }: {
-    buildingBlocks: Record<string, EditorBuildingBlock>;
-}) {
-    const groups = useMemo(
-        () =>
-            groupBy(
-                Object.values(buildingBlocks)
-                    .filter((block) => block.Icon)
-                    .map((block) => ({
-                        ...block,
-                        group: block.group || EditorBuildingBlockGroup.Other,
-                    })),
-                "group",
-            ),
-        [buildingBlocks],
-    );
-    const groupNames = useMemo(() => Object.keys(groups), [groups]);
+  buildingBlocks: Record<string, EditorBuildingBlock>
+}): JSX.Element {
+  const groups = useMemo(
+    () =>
+      groupBy(
+        Object.values(buildingBlocks)
+          .filter((block) => block.Icon)
+          .map((block) => ({
+            ...block,
+            group: block.group ?? EditorBuildingBlockGroup.Other,
+          })),
+        "group",
+      ),
+    [buildingBlocks],
+  )
+  const groupNames = useMemo(() => Object.keys(groups), [groups])
 
-    return (
+  return (
         <Wrapper>
             <Accordion>
                 {groupNames.map((groupName) => (
@@ -44,16 +43,16 @@ export function DraggableBlocks({
                         </Accordion.Title>
                         <Accordion.Content>
                             {groups[groupName]?.map((block) => {
-                                return (
+                              return (
                                     <Draggable key={block.name} id={block.name}>
                                         <DraggableBlockFigure block={block} />
                                     </Draggable>
-                                );
+                              )
                             })}
                         </Accordion.Content>
                     </Accordion.Panel>
                 ))}
             </Accordion>
         </Wrapper>
-    );
+  )
 }

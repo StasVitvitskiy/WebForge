@@ -1,20 +1,23 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
-import { FlattenedItem } from "./TreeItems";
+import { type UniqueIdentifier } from "@dnd-kit/core"
+import { type FlattenedItem } from "./TreeItems"
 
 export function removeChildrenOf(
-    items: FlattenedItem[],
-    ids: UniqueIdentifier[],
-) {
-    const excludeParentIds = [...ids];
+  items: FlattenedItem[],
+  ids: UniqueIdentifier[],
+): FlattenedItem[] {
+  const excludeParentIds = [...ids]
 
-    return items.filter((item) => {
-        if (item.parentId && excludeParentIds.includes(item.parentId)) {
-            if (item.children.length) {
-                excludeParentIds.push(item.id);
-            }
-            return false;
-        }
+  return items.filter((item) => {
+    if (
+      Boolean(item.parentId) &&
+            excludeParentIds.includes(item.parentId as UniqueIdentifier)
+    ) {
+      if (item.children.length > 0) {
+        excludeParentIds.push(item.id)
+      }
+      return false
+    }
 
-        return true;
-    });
+    return true
+  })
 }

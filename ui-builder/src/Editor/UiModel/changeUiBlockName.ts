@@ -1,51 +1,51 @@
-import { UiModel } from "~/Editor/UiModel/UiModel";
-import { UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
+import { type UiModel } from "~/Editor/UiModel/UiModel"
+import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock"
 
 export function changeUiBlockName({
-    uiModel,
-    id,
-    name,
+  uiModel,
+  id,
+  name,
 }: {
-    uiModel: UiModel;
-    id: string;
-    name: string;
+  uiModel: UiModel
+  id: string
+  name: string
 }): UiModel {
-    return {
-        ...uiModel,
-        blocks: uiModel.blocks.map((block) =>
-            changeBlockName({
-                uiBlock: block,
-                id,
-                name,
-            }),
-        ),
-    };
+  return {
+    ...uiModel,
+    blocks: uiModel.blocks.map((block) =>
+      changeBlockName({
+        uiBlock: block,
+        id,
+        name,
+      }),
+    ),
+  }
 }
 
 function changeBlockName({
-    uiBlock,
-    id,
-    name,
+  uiBlock,
+  id,
+  name,
 }: {
-    uiBlock: UiModelBuildingBlock;
-    id: string;
-    name: string;
+  uiBlock: UiModelBuildingBlock
+  id: string
+  name: string
 }): UiModelBuildingBlock {
-    if (uiBlock.id === id) {
-        return {
-            ...uiBlock,
-            name,
-        };
-    }
-
+  if (uiBlock.id === id) {
     return {
-        ...uiBlock,
-        blocks: (uiBlock.blocks || []).map((childBlock) =>
-            changeBlockName({
-                uiBlock: childBlock,
-                id,
-                name,
-            }),
-        ),
-    };
+      ...uiBlock,
+      name,
+    }
+  }
+
+  return {
+    ...uiBlock,
+    blocks: (uiBlock.blocks ?? []).map((childBlock) =>
+      changeBlockName({
+        uiBlock: childBlock,
+        id,
+        name,
+      }),
+    ),
+  }
 }

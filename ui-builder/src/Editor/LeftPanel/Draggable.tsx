@@ -1,17 +1,17 @@
-import React from "react";
-import { useDraggable } from "@dnd-kit/core";
+import React from "react"
+import { useDraggable } from "@dnd-kit/core"
 
 export function Draggable({
-    children,
+  children,
+  id,
+}: React.PropsWithChildren<{ id: string }>): JSX.Element {
+  const { attributes, listeners, setNodeRef } = useDraggable({
     id,
-}: React.PropsWithChildren<{ id: string }>) {
-    const { attributes, listeners, setNodeRef } = useDraggable({
-        id,
-    });
+  })
 
-    return (
+  return (
         <button ref={setNodeRef} {...listeners} {...attributes}>
             {children}
         </button>
-    );
+  )
 }

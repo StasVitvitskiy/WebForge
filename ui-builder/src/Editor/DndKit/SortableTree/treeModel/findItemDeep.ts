@@ -1,25 +1,25 @@
-import { TreeItem, TreeItems } from "./TreeItems";
-import { UniqueIdentifier } from "@dnd-kit/core";
+import { type TreeItem, type TreeItems } from "./TreeItems"
+import { type UniqueIdentifier } from "@dnd-kit/core"
 
 export function findItemDeep(
-    items: TreeItems,
-    itemId: UniqueIdentifier,
+  items: TreeItems,
+  itemId: UniqueIdentifier,
 ): TreeItem | undefined {
-    for (const item of items) {
-        const { id, children } = item;
+  for (const item of items) {
+    const { id, children } = item
 
-        if (id === itemId) {
-            return item;
-        }
-
-        if (children.length) {
-            const child = findItemDeep(children, itemId);
-
-            if (child) {
-                return child;
-            }
-        }
+    if (id === itemId) {
+      return item
     }
 
-    return undefined;
+    if (children.length > 0) {
+      const child = findItemDeep(children, itemId)
+
+      if (child != null) {
+        return child
+      }
+    }
+  }
+
+  return undefined
 }

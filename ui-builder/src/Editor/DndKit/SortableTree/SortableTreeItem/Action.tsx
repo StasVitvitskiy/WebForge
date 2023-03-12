@@ -1,6 +1,5 @@
-import { styled } from "@linaria/react";
-import React from "react";
-import { CSSProperties, forwardRef } from "react";
+import { styled } from "@linaria/react"
+import React, { type CSSProperties, forwardRef } from "react"
 
 const StyledButton = styled.button`
     display: flex;
@@ -48,18 +47,18 @@ const StyledButton = styled.button`
         outline: none;
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0), 0 0 0 2px #4c9ffe;
     }
-`;
+`
 
 export interface ActionProps extends React.HTMLAttributes<HTMLButtonElement> {
-    active?: {
-        fill: string;
-        background: string;
-    };
-    cursor?: CSSProperties["cursor"];
+  active?: {
+    fill: string
+    background: string
+  }
+  cursor?: CSSProperties["cursor"]
 }
 export const Action = forwardRef<HTMLButtonElement, ActionProps>(
-    ({ active, className, cursor, style, ...props }, ref) => {
-        return (
+  ({ active, className, cursor, style, ...props }, ref) => {
+    return (
             <StyledButton
                 ref={ref}
                 {...props}
@@ -67,13 +66,13 @@ export const Action = forwardRef<HTMLButtonElement, ActionProps>(
                 tabIndex={0}
                 style={
                     {
-                        ...style,
-                        cursor,
-                        "--fill": active?.fill,
-                        "--background": active?.background,
+                      ...style,
+                      cursor,
+                      "--fill": active?.fill,
+                      "--background": active?.background,
                     } as CSSProperties
                 }
             />
-        );
-    },
-);
+    )
+  },
+)

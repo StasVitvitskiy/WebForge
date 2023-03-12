@@ -1,20 +1,20 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
-import { FlattenedItem, TreeItems } from "./TreeItems";
+import { type UniqueIdentifier } from "@dnd-kit/core"
+import { type FlattenedItem, type TreeItems } from "./TreeItems"
 
 function flatten(
-    items: TreeItems,
-    parentId: UniqueIdentifier | null = null,
-    depth = 0,
+  items: TreeItems,
+  parentId: UniqueIdentifier | null = null,
+  depth = 0,
 ): FlattenedItem[] {
-    return items.reduce<FlattenedItem[]>((acc, item, index) => {
-        return [
-            ...acc,
-            { ...item, parentId, depth, index },
-            ...flatten(item.children, item.id, depth + 1),
-        ];
-    }, []);
+  return items.reduce<FlattenedItem[]>((acc, item, index) => {
+    return [
+      ...acc,
+      { ...item, parentId, depth, index },
+      ...flatten(item.children, item.id, depth + 1),
+    ]
+  }, [])
 }
 
 export function flattenTree(items: TreeItems): FlattenedItem[] {
-    return flatten(items);
+  return flatten(items)
 }

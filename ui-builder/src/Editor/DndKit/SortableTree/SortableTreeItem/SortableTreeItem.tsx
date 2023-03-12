@@ -1,44 +1,44 @@
-import React, { CSSProperties } from "react";
-import type { UniqueIdentifier } from "@dnd-kit/core";
-import { AnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import React, { type CSSProperties } from "react"
+import type { UniqueIdentifier } from "@dnd-kit/core"
+import { type AnimateLayoutChanges, useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
 
-import { TreeItem, TreeItemProps } from "./TreeItem";
-import { isIOS } from "~/Editor/DndKit/SortableTree/platform/isIOS";
+import { TreeItem, type TreeItemProps } from "./TreeItem"
+import { isIOS } from "~/Editor/DndKit/SortableTree/platform/isIOS"
 
 interface SortableTreeItemProps extends TreeItemProps {
-    id: UniqueIdentifier;
+  id: UniqueIdentifier
 }
 
 const animateLayoutChanges: AnimateLayoutChanges = ({
-    isSorting,
-    wasDragging,
-}) => (isSorting || wasDragging ? false : true);
+  isSorting,
+  wasDragging,
+}) => !(isSorting || wasDragging)
 
 export function SortableTreeItem({
+  id,
+  depth,
+  ...props
+}: SortableTreeItemProps): JSX.Element {
+  const {
+    attributes,
+    isDragging,
+    isSorting,
+    listeners,
+    setDraggableNodeRef,
+    setDroppableNodeRef,
+    transform,
+    transition,
+  } = useSortable({
     id,
-    depth,
-    ...props
-}: SortableTreeItemProps) {
-    const {
-        attributes,
-        isDragging,
-        isSorting,
-        listeners,
-        setDraggableNodeRef,
-        setDroppableNodeRef,
-        transform,
-        transition,
-    } = useSortable({
-        id,
-        animateLayoutChanges,
-    });
-    const style: CSSProperties = {
-        transform: CSS.Translate.toString(transform),
-        transition,
-    };
+    animateLayoutChanges,
+  })
+  const style: CSSProperties = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  }
 
-    return (
+  return (
         <TreeItem
             ref={setDraggableNodeRef}
             wrapperRef={setDroppableNodeRef}
@@ -48,10 +48,10 @@ export function SortableTreeItem({
             disableSelection={isIOS}
             disableInteraction={isSorting}
             handleProps={{
-                ...attributes,
-                ...listeners,
+              ...attributes,
+              ...listeners,
             }}
             {...props}
         />
-    );
+  )
 }

@@ -1,20 +1,20 @@
-import { TreeItems } from "./TreeItems";
-import { UniqueIdentifier } from "@dnd-kit/core";
+import { type TreeItems } from "./TreeItems"
+import { type UniqueIdentifier } from "@dnd-kit/core"
 
-export function removeItem(items: TreeItems, id: UniqueIdentifier) {
-    const newItems = [];
+export function removeItem(items: TreeItems, id: UniqueIdentifier): TreeItems {
+  const newItems = []
 
-    for (const item of items) {
-        if (item.id === id) {
-            continue;
-        }
-
-        if (item.children.length) {
-            item.children = removeItem(item.children, id);
-        }
-
-        newItems.push(item);
+  for (const item of items) {
+    if (item.id === id) {
+      continue
     }
 
-    return newItems;
+    if (item.children.length > 0) {
+      item.children = removeItem(item.children, id)
+    }
+
+    newItems.push(item)
+  }
+
+  return newItems
 }

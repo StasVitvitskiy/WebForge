@@ -1,4 +1,4 @@
 export enum EditorBuildingBlockGroup {
-    Basics = "Basics",
-    Other = "Other",
+  Basics = "Basics",
+  Other = "Other",
 }
