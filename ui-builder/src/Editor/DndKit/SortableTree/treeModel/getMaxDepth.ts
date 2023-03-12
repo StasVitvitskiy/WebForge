@@ -1,13 +1,13 @@
-import { type FlattenedItem } from "./TreeItems"
+import { type FlattenedItem } from "./TreeItems";
 
 export function getMaxDepth({
-  previousItem,
+    previousItem,
 }: {
-  previousItem: FlattenedItem
+    previousItem: FlattenedItem;
 }): number {
-  if (previousItem) {
-    return previousItem.depth + 1
-  }
+    if (previousItem) {
+        return previousItem.depth + 1;
+    }
 
-  return 0
+    return 0;
 }

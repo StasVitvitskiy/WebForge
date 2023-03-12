@@ -4,7 +4,11 @@ module.exports = {
         browser: true,
         es2021: true,
     },
-    extends: ["plugin:react/recommended", "standard-with-typescript"],
+    extends: [
+        "plugin:react/recommended",
+        "standard-with-typescript",
+        "prettier",
+    ],
     overrides: [],
     parserOptions: {
         ecmaVersion: "latest",
@@ -24,5 +28,7 @@ module.exports = {
         "@typescript-eslint/comma-dangle": 0,
         "space-before-function-paren": ["error", "never"],
         "@typescript-eslint/space-before-function-paren": ["error", "never"],
+        indent: 0,
+        "@typescript-eslint/indent": 0,
     },
 };

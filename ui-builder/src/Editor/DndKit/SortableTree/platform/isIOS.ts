@@ -1,1 +1,1 @@
-export const isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
+export const isIOS = /iPad|iPhone|iPod/.test(navigator.platform);

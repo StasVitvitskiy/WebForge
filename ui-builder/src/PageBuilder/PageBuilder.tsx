@@ -1,29 +1,29 @@
-import React, { useMemo } from "react"
-import { UiEditor } from "~/Editor/UiEditor"
-import { type UiModel } from "~/Editor/UiModel/UiModel"
-import { EmptyPageModel } from "~/PageBuilder/emptyPageModel"
-import { RootBuildingBlock } from "~/Editor/EditorBuildingBlocks/RootBuildingBlock"
-import { HtmlElementBuilderBlock } from "~/Editor/EditorBuildingBlocks/HtmlElementBuildingBlock"
+import React, { useMemo } from "react";
+import { UiEditor } from "~/Editor/UiEditor";
+import { type UiModel } from "~/Editor/UiModel/UiModel";
+import { EmptyPageModel } from "~/PageBuilder/emptyPageModel";
+import { RootBuildingBlock } from "~/Editor/EditorBuildingBlocks/RootBuildingBlock";
+import { HtmlElementBuilderBlock } from "~/Editor/EditorBuildingBlocks/HtmlElementBuildingBlock";
 
 export function PageBuilder({
-  uiModel = EmptyPageModel,
-  onChange,
+    uiModel = EmptyPageModel,
+    onChange,
 }: {
-  uiModel?: UiModel
-  onChange?: (newModel: UiModel) => void
+    uiModel?: UiModel;
+    onChange?: (newModel: UiModel) => void;
 }): JSX.Element {
-  const buildingBlocks = useMemo(
-    () => ({
-      [RootBuildingBlock.name]: RootBuildingBlock,
-      [HtmlElementBuilderBlock.name]: HtmlElementBuilderBlock,
-    }),
-    [],
-  )
-  return (
+    const buildingBlocks = useMemo(
+        () => ({
+            [RootBuildingBlock.name]: RootBuildingBlock,
+            [HtmlElementBuilderBlock.name]: HtmlElementBuilderBlock,
+        }),
+        [],
+    );
+    return (
         <UiEditor
             onChange={onChange}
             buildingBlocks={buildingBlocks}
             uiModel={uiModel}
         />
-  )
+    );
 }

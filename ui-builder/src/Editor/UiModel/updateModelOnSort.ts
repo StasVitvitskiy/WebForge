@@ -1,60 +1,60 @@
-import { type UiModel } from "~/Editor/UiModel/UiModel"
+import { type UiModel } from "~/Editor/UiModel/UiModel";
 import {
-  type DndKitSortableTreeItems,
-  type DndKitSortableTreeItem,
-} from "~/Editor/DndKit/SortableTree/treeModel/TreeItems"
-import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock"
+    type DndKitSortableTreeItems,
+    type DndKitSortableTreeItem,
+} from "~/Editor/DndKit/SortableTree/treeModel/TreeItems";
+import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 
 export function updateModelOnSort({
-  uiModel,
-  sortableTree,
+    uiModel,
+    sortableTree,
 }: {
-  uiModel: UiModel
-  sortableTree: DndKitSortableTreeItems
+    uiModel: UiModel;
+    sortableTree: DndKitSortableTreeItems;
 }): UiModel {
-  const uiModelBlocksHasMap = flattenUiModelBlocks(uiModel.blocks).reduce(
-    (acc, next) => ({
-      ...acc,
-      [next.id]: next,
-    }),
-    {},
-  )
+    const uiModelBlocksHasMap = flattenUiModelBlocks(uiModel.blocks).reduce(
+        (acc, next) => ({
+            ...acc,
+            [next.id]: next,
+        }),
+        {},
+    );
 
-  return {
-    ...uiModel,
-    blocks: updateModelBlocks({
-      uiModelBlocksHasMap,
-      sortableTree,
-    }),
-  }
+    return {
+        ...uiModel,
+        blocks: updateModelBlocks({
+            uiModelBlocksHasMap,
+            sortableTree,
+        }),
+    };
 }
 
 function flattenUiModelBlocks(
-  blocks: UiModelBuildingBlock[],
+    blocks: UiModelBuildingBlock[],
 ): UiModelBuildingBlock[] {
-  return blocks.flatMap((block) => [
-    block,
-    ...flattenUiModelBlocks(block.blocks ?? []),
-  ])
+    return blocks.flatMap((block) => [
+        block,
+        ...flattenUiModelBlocks(block.blocks ?? []),
+    ]);
 }
 
 function updateModelBlocks({
-  uiModelBlocksHasMap,
-  sortableTree,
+    uiModelBlocksHasMap,
+    sortableTree,
 }: {
-  uiModelBlocksHasMap: Record<string, UiModelBuildingBlock>
-  sortableTree: DndKitSortableTreeItems
+    uiModelBlocksHasMap: Record<string, UiModelBuildingBlock>;
+    sortableTree: DndKitSortableTreeItems;
 }): UiModelBuildingBlock[] {
-  return sortableTree.map((treeItem: DndKitSortableTreeItem) => {
-    const block = uiModelBlocksHasMap[treeItem.id] as UiModelBuildingBlock
+    return sortableTree.map((treeItem: DndKitSortableTreeItem) => {
+        const block = uiModelBlocksHasMap[treeItem.id] as UiModelBuildingBlock;
 
-    return {
-      ...block,
-      id: treeItem.id as string,
-      blocks: updateModelBlocks({
-        uiModelBlocksHasMap,
-        sortableTree: treeItem.children,
-      }),
-    }
-  })
+        return {
+            ...block,
+            id: treeItem.id as string,
+            blocks: updateModelBlocks({
+                uiModelBlocksHasMap,
+                sortableTree: treeItem.children,
+            }),
+        };
+    });
 }
