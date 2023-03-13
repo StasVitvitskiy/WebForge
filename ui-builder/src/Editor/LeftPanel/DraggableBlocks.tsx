@@ -2,16 +2,9 @@ import { type EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBu
 import React, { useMemo } from "react";
 import { groupBy } from "lodash";
 import { EditorBuildingBlockGroup } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlockGroup";
-import { Accordion } from "flowbite-react";
-import { styled } from "@linaria/react";
 import { Draggable } from "~/Editor/LeftPanel/Draggable";
 import { DraggableBlockFigure } from "~/Editor/LeftPanel/DraggableBlockFigure";
-
-const Wrapper = styled.div`
-    button[type="button"] {
-        padding: 10px;
-    }
-`;
+import { SidePanelAccordion } from "~/Editor/SidePanel/SidePanelAccordion";
 
 export function DraggableBlocks({
     buildingBlocks,
@@ -34,14 +27,13 @@ export function DraggableBlocks({
     const groupNames = useMemo(() => Object.keys(groups), [groups]);
 
     return (
-        <Wrapper>
-            <Accordion>
-                {groupNames.map((groupName) => (
-                    <Accordion.Panel key={groupName}>
-                        <Accordion.Title className="bg-gray-800 text-white hover:bg-gray-800 hover:text-white">
-                            {groupName}
-                        </Accordion.Title>
-                        <Accordion.Content>
+        <>
+            <SidePanelAccordion
+                items={groupNames.map((groupName) => ({
+                    key: groupName,
+                    title: <>{groupName}</>,
+                    content: (
+                        <>
                             {groups[groupName]?.map((block) => {
                                 return (
                                     <Draggable
@@ -53,10 +45,10 @@ export function DraggableBlocks({
                                     </Draggable>
                                 );
                             })}
-                        </Accordion.Content>
-                    </Accordion.Panel>
-                ))}
-            </Accordion>
-        </Wrapper>
+                        </>
+                    ),
+                }))}
+            />
+        </>
     );
 }

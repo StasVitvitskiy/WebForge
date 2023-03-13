@@ -4,6 +4,7 @@ import {
     type DndKitSortableTreeItem,
 } from "~/Editor/DndKit/SortableTree/treeModel/TreeItems";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
+import { flattenUiModelBlocks } from "./flattenUiModelBlocks";
 
 export function updateModelOnSort({
     uiModel,
@@ -27,15 +28,6 @@ export function updateModelOnSort({
             sortableTree,
         }),
     };
-}
-
-function flattenUiModelBlocks(
-    blocks: UiModelBuildingBlock[],
-): UiModelBuildingBlock[] {
-    return blocks.flatMap((block) => [
-        block,
-        ...flattenUiModelBlocks(block.blocks ?? []),
-    ]);
 }
 
 function updateModelBlocks({

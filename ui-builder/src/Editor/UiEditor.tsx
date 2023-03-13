@@ -29,6 +29,9 @@ import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
 import { updateModelOnSort } from "~/Editor/UiModel/updateModelOnSort";
 import { type DndKitSortableTreeItems } from "~/Editor/DndKit/SortableTree/treeModel/TreeItems";
 import { changeUiBlockName } from "~/Editor/UiModel/changeUiBlockName";
+import { ConfigurationControlsTab } from "~/Editor/RightPanel/ConfigurationControlsTab";
+import { getSelectedUiBlock } from "~/Editor/UiModel/getSelectedUiBlock";
+import { updateModelBlock } from "~/Editor/UiModel/updateModelBlock";
 
 const SidePanel = styled.div`
     [aria-label="Left side panel tabs"] {
@@ -182,7 +185,18 @@ export function UiEditor({
                     </div>
 
                     <SidePanel className="bg-gray-800 p-4 text-white">
-                        Right Panel
+                        <ConfigurationControlsTab
+                            onChange={(updatedBlock) => {
+                                onChange?.(
+                                    updateModelBlock({
+                                        uiModel,
+                                        updatedBlock,
+                                    }),
+                                );
+                            }}
+                            buildingBlocks={buildingBlocks}
+                            selectedBlock={getSelectedUiBlock({ uiModel })}
+                        />
                     </SidePanel>
                 </div>
 
