@@ -3,7 +3,7 @@ import { Accordion } from "flowbite-react";
 import React, { type ReactNode } from "react";
 
 const Wrapper = styled.div`
-    button[type="button"] {
+    button[type="button"][data-testid="accordion-title"] {
         padding: 10px;
     }
 `;
@@ -18,7 +18,10 @@ export function SidePanelAccordion({
             <Accordion>
                 {items.map(({ key, title, content }) => (
                     <Accordion.Panel key={key}>
-                        <Accordion.Title className="bg-gray-800 text-white hover:bg-gray-800 hover:text-white">
+                        <Accordion.Title
+                            data-testid="accordion-title"
+                            className="bg-gray-800 text-white hover:bg-gray-800 hover:text-white"
+                        >
                             {title}
                         </Accordion.Title>
                         <Accordion.Content>{content}</Accordion.Content>

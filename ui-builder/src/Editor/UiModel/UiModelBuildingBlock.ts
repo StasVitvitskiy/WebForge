@@ -3,7 +3,7 @@ import type React from "react";
 
 export interface UiModelBuildingBlockAttributes
     extends React.HTMLAttributes<HTMLElement>,
-        Record<string | number | symbol, unknown> {
+        Record<string | number | symbol, string | number | unknown> {
     tagName?: keyof ReactHTML;
 }
 
