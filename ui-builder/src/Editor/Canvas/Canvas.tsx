@@ -6,6 +6,7 @@ import { omit } from "lodash";
 import { UiEditorContext } from "~/Editor/UiEditorContext";
 import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
 import { canvasRootBlock } from "~/Editor/Canvas/canvasRootBlock";
+import { getBuildingBlockWrapperStyles } from "~/Editor/Canvas/getBuildingBlockWrapperStyles";
 
 export function Canvas({
     uiModel,
@@ -73,7 +74,9 @@ function BlockWithChildren({
                     ? `${uiBlock?.attributes?.className} border border-blue-600`
                     : undefined
             }
-            style={uiBlock?.attributes?.style}
+            style={getBuildingBlockWrapperStyles(
+                uiBlock?.attributes?.style ?? {},
+            )}
             onClick={onActiveElementClick}
         >
             <Renderer key={uiBlock.id} {...uiBlock}>

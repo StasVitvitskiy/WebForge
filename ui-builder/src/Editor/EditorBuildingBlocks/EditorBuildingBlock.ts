@@ -10,14 +10,12 @@ export interface EditorBuildingBlock {
     group?: string;
     Icon?: React.ComponentType<Record<string | number | symbol, unknown>>;
     createUiBlock?: (id: string) => UiModelBuildingBlock;
-    configurationControls?: [
-        {
-            key: string;
-            group: string;
-            Component: React.ComponentType<{
-                block: UiModelBuildingBlock;
-                onChange: (block: UiModelBuildingBlock) => void;
-            }>;
-        },
-    ];
+    configurationControls?: Array<{
+        key: string;
+        group: string;
+        Component: React.ComponentType<{
+            block: UiModelBuildingBlock;
+            onChange: (block: UiModelBuildingBlock) => void;
+        }>;
+    }>;
 }

@@ -1,11 +1,11 @@
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 import React from "react";
-import { TagNameInput } from "~/Editor/EditorBuildingBlocks/HtmlElement/TagNameInput";
-import { ClassNameInput } from "~/Editor/EditorBuildingBlocks/HtmlElement/ClassNameInput";
-import { AddNewAttribute } from "~/Editor/EditorBuildingBlocks/HtmlElement/AddNewAttribute";
-import { CustomAttributes } from "~/Editor/EditorBuildingBlocks/HtmlElement/CustomAttributes";
+import { TagNameInput } from "./TagNameInput";
+import { ClassNameInput } from "./ClassNameInput";
+import { AddNewAttribute } from "./AddNewAttribute";
+import { CustomAttributes } from "./CustomAttributes";
 
-export function HtmlElementHtmlAttributesConfigurationControls(props: {
+export function HtmlAttributesConfigurationControls(props: {
     block: UiModelBuildingBlock;
     onChange: (block: UiModelBuildingBlock) => void;
 }): JSX.Element {

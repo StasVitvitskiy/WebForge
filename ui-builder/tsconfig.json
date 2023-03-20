@@ -5,6 +5,6 @@
         "paths": {
             "~/*": ["./src/*"]
         },
-        "types": ["cypress", "@4tw/cypress-drag-drop"]
+        "types": ["cypress", "@4tw/cypress-drag-drop", "node"]
     }
 }

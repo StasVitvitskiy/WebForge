@@ -1,0 +1,7 @@
+{
+    "name": "@css-builder/cli",
+    "private": true,
+    "scripts": {
+        "generate-css-definitions": "node -r ts-node/register ./generate-css-definitions.ts"
+    }
+}

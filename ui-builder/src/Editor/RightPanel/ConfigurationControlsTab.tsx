@@ -20,27 +20,31 @@ export function ConfigurationControlsTab({
     if (controls) {
         return (
             <div>
-                {Object.entries(grouped).map(([groupName, group]) => {
+                {Object.entries(grouped).map(([groupName, group], index) => {
                     return (
-                        <SidePanelAccordion
+                        <div
                             key={groupName}
-                            items={group.map((configurationControl) => ({
-                                key: configurationControl.key,
-                                title: <>{groupName}</>,
-                                content: (
-                                    <>
-                                        {
-                                            <configurationControl.Component
-                                                block={
-                                                    selectedBlock as UiModelBuildingBlock
-                                                }
-                                                onChange={onChange}
-                                            />
-                                        }
-                                    </>
-                                ),
-                            }))}
-                        />
+                            className={index > 0 ? "mt-4" : undefined}
+                        >
+                            <SidePanelAccordion
+                                items={group.map((configurationControl) => ({
+                                    key: configurationControl.key,
+                                    title: <>{groupName}</>,
+                                    content: (
+                                        <>
+                                            {
+                                                <configurationControl.Component
+                                                    block={
+                                                        selectedBlock as UiModelBuildingBlock
+                                                    }
+                                                    onChange={onChange}
+                                                />
+                                            }
+                                        </>
+                                    ),
+                                }))}
+                            />
+                        </div>
                     );
                 })}
             </div>

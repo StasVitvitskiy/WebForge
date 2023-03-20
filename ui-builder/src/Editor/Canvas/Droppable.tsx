@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
+import { getBuildingBlockWrapperStyles } from "~/Editor/Canvas/getBuildingBlockWrapperStyles";
 
 export function Droppable({
     id,
@@ -13,10 +14,8 @@ export function Droppable({
         id,
     });
     const css = useMemo(
-        () => ({
-            ...style,
-        }),
-        [],
+        () => getBuildingBlockWrapperStyles(style ?? {}),
+        [style],
     );
     const combinedClassName = useMemo(
         () => `${className} ${isOver ? "border border-blue-600" : ""}`,

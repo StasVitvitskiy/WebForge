@@ -5,7 +5,8 @@ import { EditorBuildingBlockGroup } from "~/Editor/EditorBuildingBlocks/EditorBu
 import { ImHtmlFive } from "react-icons/im";
 import { Droppable } from "~/Editor/Canvas/Droppable";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
-import { HtmlElementHtmlAttributesConfigurationControls } from "~/Editor/EditorBuildingBlocks/HtmlElement/HtmlElementHtmlAttributesConfigurationControls";
+import { HtmlAttributesConfigurationControls } from "~/Editor/ConfigurationControls/HtmlAttributes/HtmlAttributesConfigurationControls";
+import { StyleConfigurationControls } from "~/Editor/ConfigurationControls/Style/StyleConfigurationControls";
 
 const Renderer: EditorBuildingBlock["Renderer"] = ({ children, ...props }) => {
     const {
@@ -46,7 +47,12 @@ export const HtmlElementBuilderBlock: EditorBuildingBlock = {
         {
             key: "html_attributes",
             group: "HTML Attributes",
-            Component: HtmlElementHtmlAttributesConfigurationControls,
+            Component: HtmlAttributesConfigurationControls,
+        },
+        {
+            key: "css_styles",
+            group: "Style",
+            Component: StyleConfigurationControls,
         },
     ],
 };

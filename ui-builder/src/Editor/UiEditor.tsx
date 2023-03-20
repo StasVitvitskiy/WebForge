@@ -42,12 +42,17 @@ const SidePanel = styled.div`
             display: flex;
             justify-content: center;
             align-content: center;
+            padding: 8px 0;
+
+            svg {
+                margin: 0;
+                padding: 0;
+            }
         }
     }
 
     [role="tabpanel"] {
         padding: 0;
-        padding-top: 16px;
     }
 `;
 const BlocksIcon = styled(MdOutlineWidthWide)`
@@ -131,8 +136,8 @@ export function UiEditor({
                 onDragEnd={onDragEnd}
                 sensors={sensors}
             >
-                <div className="grid h-full grid-cols-[20%_1fr_20%]">
-                    <SidePanel className="bg-gray-800 py-4 text-white">
+                <div className="grid h-full grid-cols-[20%_1fr_min-content]">
+                    <SidePanel className="bg-gray-800 text-white">
                         <Tabs.Group
                             aria-label="Left side panel tabs"
                             style="underline"
@@ -157,22 +162,24 @@ export function UiEditor({
                                 icon={UiTreeIcon}
                                 aria-title="UI tree"
                             >
-                                <SortableTree
-                                    key={Date.now()}
-                                    defaultItems={getSortableTree(uiModel)}
-                                    onTreeItemClick={onTreeItemClick}
-                                    selectedItemId={uiModel.activeElement}
-                                    onChange={onSortableTreeChange}
-                                    onItemNameChange={(id, name) => {
-                                        onChange?.(
-                                            changeUiBlockName({
-                                                uiModel,
-                                                id,
-                                                name,
-                                            }),
-                                        );
-                                    }}
-                                />
+                                <div className="pt-3">
+                                    <SortableTree
+                                        key={Date.now()}
+                                        defaultItems={getSortableTree(uiModel)}
+                                        onTreeItemClick={onTreeItemClick}
+                                        selectedItemId={uiModel.activeElement}
+                                        onChange={onSortableTreeChange}
+                                        onItemNameChange={(id, name) => {
+                                            onChange?.(
+                                                changeUiBlockName({
+                                                    uiModel,
+                                                    id,
+                                                    name,
+                                                }),
+                                            );
+                                        }}
+                                    />
+                                </div>
                             </Tabs.Item>
                         </Tabs.Group>
                     </SidePanel>
@@ -184,7 +191,7 @@ export function UiEditor({
                         />
                     </div>
 
-                    <SidePanel className="bg-gray-800 p-4 text-white">
+                    <SidePanel className="min-w-[400px] bg-gray-800 p-4 text-white">
                         <ConfigurationControlsTab
                             onChange={(updatedBlock) => {
                                 onChange?.(

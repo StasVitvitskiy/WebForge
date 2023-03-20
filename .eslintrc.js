@@ -34,5 +34,14 @@ module.exports = {
         "@typescript-eslint/method-signature-style": 0,
         "@typescript-eslint/restrict-plus-operands": 0,
         "@typescript-eslint/triple-slash-reference": 0,
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                prefer: "type-imports",
+                disallowTypeAnnotations: true,
+                fixStyle: "inline-type-imports",
+            },
+        ],
+        "@typescript-eslint/no-var-requires": 0,
     },
 };
