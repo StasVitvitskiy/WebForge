@@ -45,14 +45,14 @@ export const HtmlElementBuilderBlock: EditorBuildingBlock = {
     }),
     configurationControls: [
         {
-            key: "html_attributes",
-            group: "HTML Attributes",
-            Component: HtmlAttributesConfigurationControls,
-        },
-        {
             key: "css_styles",
             group: "Style",
             Component: StyleConfigurationControls,
+        },
+        {
+            key: "html_attributes",
+            group: "HTML Attributes",
+            Component: HtmlAttributesConfigurationControls,
         },
     ],
 };

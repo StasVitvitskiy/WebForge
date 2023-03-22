@@ -1,5 +1,5 @@
 import { supportedProperties, type SupportedProperty } from "./cssSchema";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, type KeyboardEventHandler, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { matchSorter } from "match-sorter";
 
@@ -12,12 +12,14 @@ export function StyleNameComboBox({
         className:
             "w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0",
     },
+    onKeyPress,
 }: {
     onChange?: (propertyName: SupportedProperty) => void;
     placeholder?: string;
     Input?: {
         className?: string;
     };
+    onKeyPress?: KeyboardEventHandler<HTMLInputElement> | undefined;
 }): JSX.Element {
     const [selected, setSelected] = useState<SupportedProperty>(
         {} as SupportedProperty,
@@ -57,6 +59,7 @@ export function StyleNameComboBox({
                                 setQuery(event.target.value);
                             }}
                             placeholder={placeholder}
+                            onKeyPress={onKeyPress}
                         />
                     </div>
                     <Transition

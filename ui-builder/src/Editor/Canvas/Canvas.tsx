@@ -57,12 +57,14 @@ function BlockWithChildren({
             event.stopPropagation();
             event.nativeEvent.stopImmediatePropagation();
 
-            editorCtx.onChange(
-                setActiveElement({
-                    uiModel: editorCtx.uiModel as UiModel,
-                    activeElement: uiBlock.id,
-                }),
-            );
+            if (uiBlock.id !== editorCtx.uiModel?.id) {
+                editorCtx.onChange(
+                    setActiveElement({
+                        uiModel: editorCtx.uiModel as UiModel,
+                        activeElement: uiBlock.id,
+                    }),
+                );
+            }
         },
         [uiBlock, editorCtx],
     );

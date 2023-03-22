@@ -9,6 +9,7 @@ const sectionBlock = {
         tagName: "section" as const,
         style: {
             height: "400px",
+            backgroundColor: "#84cc16",
         },
     },
     blocks: [],

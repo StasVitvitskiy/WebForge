@@ -14,7 +14,7 @@ export function CssBuilder({
     css: CSSProperties;
     propertyControls?: {
         byName?: Record<string, PropertyControl>;
-        byPredicate?: (prop: SupportedProperty) => PropertyControl;
+        byPredicate?: (prop: SupportedProperty) => PropertyControl | undefined;
         FallbackPropertyControl?: PropertyControl;
     };
     media?: string;
@@ -28,12 +28,17 @@ export function CssBuilder({
     return (
         <div>
             {Object.entries(css).map(([key, value]) => {
+                const propertyByKey =
+                    Object.values(supportedProperties.hashTable).find(
+                        (el) => el.styleDeclarationProperty === key,
+                    ) ?? supportedProperties.hashTable[key];
+
                 const Renderer: PropertyControl =
                     mergedPropertyControls.byName?.[key] ??
-                    (supportedProperties.hashTable?.[key]
+                    (propertyByKey
                         ? mergedPropertyControls.byPredicate?.(
                               supportedProperties.hashTable?.[
-                                  key
+                                  propertyByKey.name
                               ] as SupportedProperty,
                           )
                         : undefined) ??
@@ -42,7 +47,11 @@ export function CssBuilder({
                 return (
                     <div key={key}>
                         <Renderer
-                            property={{ name: key, value }}
+                            property={{
+                                name: key,
+                                value,
+                                label: propertyByKey?.name ?? key,
+                            }}
                             onChange={(style) => {
                                 if (media) {
                                     onChange?.(

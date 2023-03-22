@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { MdOutlineAddBox } from "react-icons/md";
 import React, { useCallback, useState } from "react";
 import { StyleNameComboBox } from "~/CssBuilder/StyleNameComboBox";
+import { supportedProperties } from "~/CssBuilder/cssSchema";
 
 export function AddNewStyle({
     onChange,
@@ -14,7 +15,7 @@ export function AddNewStyle({
         value: "",
     });
     const onAddNewStyle = useCallback(() => {
-        if (newStyle.key && newStyle.value) {
+        if (newStyle.key) {
             onChange?.(newStyle);
             setNewStyle({
                 id: uuidv4(),
@@ -43,8 +44,17 @@ export function AddNewStyle({
                                 onChange={(e) => {
                                     setNewStyle({
                                         ...newStyle,
-                                        key: e.name,
+                                        key:
+                                            supportedProperties.hashTable[
+                                                e.name
+                                            ]?.styleDeclarationProperty ??
+                                            e.name,
                                     });
+                                }}
+                                onKeyPress={(e) => {
+                                    if (e.key === "Enter") {
+                                        onAddNewStyle();
+                                    }
                                 }}
                             />
                         </div>

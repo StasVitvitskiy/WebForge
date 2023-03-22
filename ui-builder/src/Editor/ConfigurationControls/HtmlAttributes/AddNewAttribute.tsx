@@ -1,6 +1,6 @@
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 import { MdOutlineAddBox } from "react-icons/md";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export function AddNewAttribute({
@@ -15,6 +15,22 @@ export function AddNewAttribute({
         key: "",
         value: "",
     });
+    const onAddNewAttribute = useCallback(() => {
+        if (newAttribute.key && newAttribute.value) {
+            onChange({
+                ...block,
+                attributes: {
+                    ...block.attributes,
+                    [newAttribute.key]: newAttribute.value,
+                },
+            });
+            setNewAttribute({
+                id: uuidv4(),
+                key: "",
+                value: "",
+            });
+        }
+    }, [onChange, block, newAttribute]);
 
     return (
         <>
@@ -59,6 +75,11 @@ export function AddNewAttribute({
                                     });
                                 }}
                                 autoComplete="off"
+                                onKeyPress={(e) => {
+                                    if (e.key === "Enter") {
+                                        onAddNewAttribute();
+                                    }
+                                }}
                             />
                         </div>
                     </div>
@@ -66,22 +87,7 @@ export function AddNewAttribute({
                 <button
                     type="button"
                     className="flex w-full items-center justify-center gap-x-1.5 rounded-none rounded-br-md rounded-bl-md border border-t-0 border-white bg-gray-800 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                    onClick={() => {
-                        if (newAttribute.key && newAttribute.value) {
-                            onChange({
-                                ...block,
-                                attributes: {
-                                    ...block.attributes,
-                                    [newAttribute.key]: newAttribute.value,
-                                },
-                            });
-                            setNewAttribute({
-                                id: uuidv4(),
-                                key: "",
-                                value: "",
-                            });
-                        }
-                    }}
+                    onClick={onAddNewAttribute}
                 >
                     Add
                     <MdOutlineAddBox

@@ -2,6 +2,7 @@ import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock
 import React from "react";
 import { styled } from "@linaria/react";
 import { CssBuilder } from "~/CssBuilder/CssBuilder";
+import { ColorPickerPropertyControl } from "~/Editor/ConfigurationControls/Style/ColorPickerPropertyControl";
 
 const EditorWrapper = styled.div``;
 
@@ -24,6 +25,18 @@ export function StyleConfigurationControls({
                             style: newCss,
                         },
                     });
+                }}
+                propertyControls={{
+                    byPredicate: (prop) => {
+                        if (
+                            prop.referenceValues.length === 1 &&
+                            prop.referenceValues[0] === "<color>"
+                        ) {
+                            return ColorPickerPropertyControl;
+                        }
+
+                        return undefined;
+                    },
                 }}
             />
         </EditorWrapper>
