@@ -1,6 +1,6 @@
 import React from "react";
-import { type EditorBuildingBlock } from "./EditorBuildingBlock";
 import { Droppable } from "~/Editor/Canvas/Droppable";
+import { type EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
 
 const Renderer: EditorBuildingBlock["Renderer"] = ({ children, ...props }) => {
     const {

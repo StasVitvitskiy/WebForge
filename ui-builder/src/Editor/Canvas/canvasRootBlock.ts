@@ -1,4 +1,4 @@
-import { RootBuildingBlock } from "~/Editor/EditorBuildingBlocks/RootBuildingBlock";
+import { RootBuildingBlock } from "./RootBuildingBlock";
 import { generateNewBlockId } from "~/Editor/UiModel/generateNewBlockId";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 

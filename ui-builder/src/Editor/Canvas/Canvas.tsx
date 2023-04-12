@@ -5,8 +5,9 @@ import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock
 import { omit } from "lodash";
 import { UiEditorContext } from "~/Editor/UiEditorContext";
 import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
-import { canvasRootBlock } from "~/Editor/Canvas/canvasRootBlock";
-import { getBuildingBlockWrapperStyles } from "~/Editor/Canvas/getBuildingBlockWrapperStyles";
+import { canvasRootBlock } from "./canvasRootBlock";
+import { getBuildingBlockWrapperStyles } from "./getBuildingBlockWrapperStyles";
+import { RootBuildingBlock } from "./RootBuildingBlock";
 
 export function Canvas({
     uiModel,
@@ -23,12 +24,19 @@ export function Canvas({
         }),
         [uiModel],
     );
+    const extendedBuildingBlocks = useMemo(
+        () => ({
+            ...buildingBlocks,
+            [RootBuildingBlock.name]: RootBuildingBlock,
+        }),
+        [buildingBlocks],
+    );
 
     return (
         <BlockWithChildren
             key={rootUiBlock.id}
             uiBlock={rootUiBlock}
-            buildingBlocks={buildingBlocks}
+            buildingBlocks={extendedBuildingBlocks}
             activeElement={uiModel.activeElement}
         />
     );
