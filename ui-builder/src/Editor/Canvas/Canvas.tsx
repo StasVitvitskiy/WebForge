@@ -6,7 +6,6 @@ import { omit } from "lodash";
 import { UiEditorContext } from "~/Editor/UiEditorContext";
 import { setActiveElement } from "~/Editor/UiModel/setActiveElement";
 import { canvasRootBlock } from "./canvasRootBlock";
-import { getBuildingBlockWrapperStyles } from "./getBuildingBlockWrapperStyles";
 import { RootBuildingBlock } from "./RootBuildingBlock";
 
 export function Canvas({
@@ -77,19 +76,33 @@ function BlockWithChildren({
         [uiBlock, editorCtx],
     );
 
+    const uiBlockAttributes = useMemo(
+        () => ({
+            ...uiBlock.attributes,
+            style: {
+                ...(uiBlock.attributes.style ?? {}),
+                ...(activeElement === uiBlock.id
+                    ? {
+                          border: "2px solid #2563eb",
+                      }
+                    : {}),
+            },
+        }),
+        [uiBlock, activeElement],
+    );
+
     return (
         <div
-            className={
-                activeElement === uiBlock.id
-                    ? `${uiBlock?.attributes?.className} border border-blue-600`
-                    : undefined
-            }
-            style={getBuildingBlockWrapperStyles(
-                uiBlock?.attributes?.style ?? {},
-            )}
             onClick={onActiveElementClick}
+            style={{
+                display: "contents",
+            }}
         >
-            <Renderer key={uiBlock.id} {...uiBlock}>
+            <Renderer
+                key={uiBlock.id}
+                {...uiBlock}
+                attributes={uiBlockAttributes}
+            >
                 {(uiBlock.blocks ?? []).map((childUiBlock) => (
                     <BlockWithChildren
                         key={childUiBlock.id}

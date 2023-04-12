@@ -17,5 +17,6 @@ export interface EditorBuildingBlock {
             block: UiModelBuildingBlock;
             onChange: (block: UiModelBuildingBlock) => void;
         }>;
+        collapsible?: boolean;
     }>;
 }

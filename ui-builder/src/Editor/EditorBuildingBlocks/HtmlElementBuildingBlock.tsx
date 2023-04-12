@@ -1,5 +1,5 @@
 import { styled } from "@linaria/react";
-import React from "react";
+import React, { type ReactElement } from "react";
 import { type EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
 import { EditorBuildingBlockGroup } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlockGroup";
 import { ImHtmlFive } from "react-icons/im";
@@ -7,6 +7,7 @@ import { Droppable } from "~/Editor/Canvas/Droppable";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 import { HtmlAttributesConfigurationControls } from "~/Editor/ConfigurationControls/HtmlAttributes/HtmlAttributesConfigurationControls";
 import { StyleConfigurationControls } from "~/Editor/ConfigurationControls/Style/StyleConfigurationControls";
+import { CustomCssAndJsConfigurationControls } from "~/Editor/ConfigurationControls/CustomCssAndJsConfigurationControls";
 
 const Renderer: EditorBuildingBlock["Renderer"] = ({ children, ...props }) => {
     const {
@@ -17,7 +18,17 @@ const Renderer: EditorBuildingBlock["Renderer"] = ({ children, ...props }) => {
         className,
         style,
         ...attributes,
-        children,
+        children: attributes.customCSS
+            ? [
+                  ...(children as ReactElement[]),
+                  <style
+                      key={attributes.customCSS as string}
+                      dangerouslySetInnerHTML={{
+                          __html: attributes.customCSS as string,
+                      }}
+                  />,
+              ]
+            : children,
     });
 
     return <Droppable {...props}>{elementWithCustomTagName}</Droppable>;
@@ -41,6 +52,7 @@ export const HtmlElementBuilderBlock: EditorBuildingBlock = {
             style: {
                 height: "200px",
             },
+            id,
         },
     }),
     configurationControls: [
@@ -48,11 +60,19 @@ export const HtmlElementBuilderBlock: EditorBuildingBlock = {
             key: "css_styles",
             group: "Style",
             Component: StyleConfigurationControls,
+            collapsible: true,
         },
         {
             key: "html_attributes",
             group: "HTML Attributes",
             Component: HtmlAttributesConfigurationControls,
+            collapsible: true,
+        },
+        {
+            key: "custom_css_js",
+            group: "Custom CSS & JS",
+            Component: CustomCssAndJsConfigurationControls,
+            collapsible: false,
         },
     ],
 };

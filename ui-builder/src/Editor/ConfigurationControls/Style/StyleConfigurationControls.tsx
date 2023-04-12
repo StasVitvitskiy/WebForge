@@ -16,6 +16,7 @@ export function StyleConfigurationControls({
     return (
         <EditorWrapper>
             <CssBuilder
+                key={block.id}
                 css={block.attributes.style ?? {}}
                 onChange={(newCss) => {
                     onChange?.({

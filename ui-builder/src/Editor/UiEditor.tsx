@@ -32,9 +32,10 @@ import { changeUiBlockName } from "~/Editor/UiModel/changeUiBlockName";
 import { ConfigurationControlsTab } from "~/Editor/RightPanel/ConfigurationControlsTab";
 import { getSelectedUiBlock } from "~/Editor/UiModel/getSelectedUiBlock";
 import { updateModelBlock } from "~/Editor/UiModel/updateModelBlock";
+import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 
 const SidePanel = styled.div`
-    [aria-label="Left side panel tabs"] {
+    [aria-label="Side panel tabs"] {
         display: grid;
         grid-template-columns: 1fr 1fr;
 
@@ -139,7 +140,7 @@ export function UiEditor({
                 <div className="grid h-full grid-cols-[20%_1fr_min-content]">
                     <SidePanel className="bg-gray-800 text-white">
                         <Tabs.Group
-                            aria-label="Left side panel tabs"
+                            aria-label="Side panel tabs"
                             style="underline"
                         >
                             <Tabs.Item
@@ -191,19 +192,34 @@ export function UiEditor({
                         />
                     </div>
 
-                    <SidePanel className="min-w-[400px] bg-gray-800 p-4 text-white">
-                        <ConfigurationControlsTab
-                            onChange={(updatedBlock) => {
-                                onChange?.(
-                                    updateModelBlock({
-                                        uiModel,
-                                        updatedBlock,
-                                    }),
-                                );
-                            }}
-                            buildingBlocks={buildingBlocks}
-                            selectedBlock={getSelectedUiBlock({ uiModel })}
-                        />
+                    <SidePanel className="min-w-[400px] overflow-y-scroll bg-gray-800 text-white">
+                        <Tabs.Group
+                            aria-label="Side panel tabs"
+                            style="underline"
+                        >
+                            <Tabs.Item
+                                title=""
+                                aria-title="Active block settings"
+                                icon={HiAdjustmentsHorizontal}
+                            >
+                                <div className="p-4">
+                                    <ConfigurationControlsTab
+                                        onChange={(updatedBlock) => {
+                                            onChange?.(
+                                                updateModelBlock({
+                                                    uiModel,
+                                                    updatedBlock,
+                                                }),
+                                            );
+                                        }}
+                                        buildingBlocks={buildingBlocks}
+                                        selectedBlock={getSelectedUiBlock({
+                                            uiModel,
+                                        })}
+                                    />
+                                </div>
+                            </Tabs.Item>
+                        </Tabs.Group>
                     </SidePanel>
                 </div>
 

@@ -1,7 +1,6 @@
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 import { MdOutlineCodeOff } from "react-icons/md";
-import { debounce } from "lodash";
-import React from "react";
+import React, { type ReactHTML } from "react";
 
 export function TagNameInput({
     block,
@@ -29,15 +28,15 @@ export function TagNameInput({
                     className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="div"
                     defaultValue={block.attributes.tagName}
-                    onChange={debounce((e) => {
+                    onBlur={(e) => {
                         onChange({
                             ...block,
                             attributes: {
                                 ...block.attributes,
-                                tagName: e.target.value,
+                                tagName: e.target.value as keyof ReactHTML,
                             },
                         });
-                    }, 300)}
+                    }}
                     autoComplete="off"
                 />
             </div>

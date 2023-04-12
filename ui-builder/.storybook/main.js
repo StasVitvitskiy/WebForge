@@ -1,5 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = {
     stories: [
@@ -22,7 +23,10 @@ module.exports = {
         };
 
         config.plugins.push(
-            new MiniCssExtractPlugin({ filename: "styles.css" }),
+            ...[
+                new MiniCssExtractPlugin({ filename: "styles.[name].css" }),
+                new MonacoWebpackPlugin(),
+            ],
         );
 
         // Add Linaria loader after babel-loader

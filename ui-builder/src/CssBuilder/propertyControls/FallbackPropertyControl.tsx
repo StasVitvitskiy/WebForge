@@ -2,7 +2,6 @@ import {
     type PropertyControl,
     type PropertyControlProps,
 } from "~/CssBuilder/propertyControls/PropertyControl";
-import { debounce } from "lodash";
 import { RxCrossCircled } from "react-icons/rx";
 import React from "react";
 
@@ -22,12 +21,12 @@ export const FallbackPropertyControl: PropertyControl = ({
                     className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     defaultValue={value as string}
                     autoComplete="off"
-                    onChange={debounce((e) => {
+                    onBlur={(e) => {
                         onChange({
                             name,
                             value: e.target.value,
                         });
-                    }, 300)}
+                    }}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                     <RxCrossCircled

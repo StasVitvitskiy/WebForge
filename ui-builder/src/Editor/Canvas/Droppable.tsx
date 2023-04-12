@@ -1,35 +1,26 @@
-import React, { useMemo } from "react";
+import React, { type ReactElement } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
-import { getBuildingBlockWrapperStyles } from "~/Editor/Canvas/getBuildingBlockWrapperStyles";
 
 export function Droppable({
     id,
-    type,
-    name,
     children,
-    attributes: { className, style },
+    attributes,
 }: React.PropsWithChildren<UiModelBuildingBlock>): JSX.Element {
     const { setNodeRef, isOver } = useDroppable({
         id,
     });
-    const css = useMemo(
-        () => getBuildingBlockWrapperStyles(style ?? {}),
-        [style],
-    );
-    const combinedClassName = useMemo(
-        () => `${className} ${isOver ? "border border-blue-600" : ""}`,
-        [isOver, className],
-    );
 
-    return (
-        <div
-            data-droppable={type || name}
-            ref={setNodeRef}
-            className={combinedClassName}
-            style={css}
-        >
-            {children}
-        </div>
-    );
+    return React.cloneElement(children as ReactElement, {
+        ref: setNodeRef,
+        ...attributes,
+        style: {
+            ...(attributes.style ?? {}),
+            ...(isOver
+                ? {
+                      border: "2px solid #2563eb",
+                  }
+                : {}),
+        },
+    });
 }
