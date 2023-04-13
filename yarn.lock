@@ -2692,6 +2692,14 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+"@tinymce/tinymce-react@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-react/-/tinymce-react-4.3.0.tgz#5e2f5a58526a1bba9710f54f5fcf16abd4c742a1"
+  integrity sha512-iB4cUsYfcJL4NGuKhqCGYuTmFTje3nPxyPv1HxprTsp/YMGuuiiSNWrv3zwI31QX5Cn8qeq9MrMDnbxuRugHyg==
+  dependencies:
+    prop-types "^15.6.2"
+    tinymce "^6.3.1"
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.9.tgz#df4907fc07a886922637b15e02d4cebc4c0021b2"
@@ -7684,6 +7692,13 @@ is-regex@^1.1.2, is-regex@^1.1.4:
     call-bind "^1.0.2"
     has-tostringtag "^1.0.0"
 
+is-self-closing@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-self-closing/-/is-self-closing-1.0.1.tgz#5f406b527c7b12610176320338af0fa3896416e4"
+  integrity sha512-E+60FomW7Blv5GXTlYee2KDrnG6srxF7Xt1SjrhWUGUEsTFIqY/nq2y3DaftCsgUMdh89V07IVfhY9KIJhLezg==
+  dependencies:
+    self-closing-tags "^1.0.1"
+
 is-set@^2.0.1, is-set@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/is-set/-/is-set-2.0.2.tgz#90755fa4c2562dc1c5d4024760d6119b94ca18ec"
@@ -9845,7 +9860,7 @@ prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -10071,6 +10086,13 @@ react-element-to-jsx-string@^14.3.4:
     is-plain-object "5.0.0"
     react-is "17.0.2"
 
+react-error-boundary@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-4.0.3.tgz#f811497c06d53ea1206817ee82c6e5c6a27becd9"
+  integrity sha512-IzNKP/ViHWp2QRDgsDMirEcf0XLsLueN6Wgzm1TVwgbAH+paX8Z42VyKvZcFFRHgd+rPK2P4TLrOrHC/dommew==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+
 react-html-attributes@^1.4.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/react-html-attributes/-/react-html-attributes-1.4.6.tgz#9558b56bb81c60f6cee9ae7d5e97434a59c086ff"
@@ -10120,6 +10142,11 @@ react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
+
+react-style-object-to-css@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-style-object-to-css/-/react-style-object-to-css-1.1.2.tgz#3e97da92c9edf8190e30f4b27026e74285940498"
+  integrity sha512-+5MFULqCCj7wwJJ/ISKFP91ZlHVF1Rv8o0neiTKvt21XDTU5e34tc8hy+XPLeYWYOupdHt25HxxwocvYm3HM6A==
 
 react@18.2.0:
   version "18.2.0"
@@ -10635,6 +10662,11 @@ schema-utils@^4.0.0:
     ajv "^8.8.0"
     ajv-formats "^2.1.1"
     ajv-keywords "^5.0.0"
+
+self-closing-tags@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/self-closing-tags/-/self-closing-tags-1.0.1.tgz#6c5fa497994bb826b484216916371accee490a5d"
+  integrity sha512-7t6hNbYMxM+VHXTgJmxwgZgLGktuXtVVD5AivWzNTdJBM4DBjnDKDzkf2SrNjihaArpeJYNjxkELBu1evI4lQA==
 
 "semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.5.0, semver@^5.6.0:
   version "5.7.1"
@@ -11452,6 +11484,11 @@ tinycolor2@^1.4.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.6.0.tgz#f98007460169b0263b97072c5ae92484ce02d09e"
   integrity sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==
+
+tinymce@^6.3.1:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-6.4.1.tgz#9c28f798074668d53371805fb6f1c68e582a4549"
+  integrity sha512-+/cS2AM9l6p72IBs2uolHbGsBUztLs0WslqNgFaTXtmMksTNUOhh8p08xtA/fa03UGlWEC6/EJoeV95/QDXa2A==
 
 tmp@~0.2.1:
   version "0.2.1"

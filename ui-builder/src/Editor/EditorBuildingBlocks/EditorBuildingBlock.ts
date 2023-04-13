@@ -3,6 +3,7 @@ import type React from "react";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 
 export interface EditorBuildingBlock {
+    customAttributes?: string[];
     name: string;
     Renderer: React.ComponentType<
         { children?: ReactNode | undefined } & UiModelBuildingBlock

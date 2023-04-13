@@ -131,7 +131,7 @@ export function UiEditor({
     const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
     return (
-        <UiEditorContext.Provider value={{ onChange, uiModel }}>
+        <UiEditorContext.Provider value={{ onChange, uiModel, buildingBlocks }}>
             <DndContext
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}

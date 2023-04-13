@@ -47,6 +47,7 @@
         "@linaria/babel-preset": "4.4.3",
         "@linaria/core": "4.2.8",
         "@linaria/react": "4.3.6",
+        "@tinymce/tinymce-react": "^4.3.0",
         "@types/react-color": "^3.0.6",
         "@types/uuid": "9.0.1",
         "@uiw/react-monacoeditor": "^3.5.8",
@@ -54,11 +55,14 @@
         "css-tree": "2.3.1",
         "flowbite": "1.6.3",
         "flowbite-react": "0.4.2",
+        "is-self-closing": "^1.0.1",
         "lodash": "4.17.21",
         "match-sorter": "^6.3.1",
         "react": "18.2.0",
         "react-color": "^2.19.3",
         "react-dom": "18.2.0",
+        "react-error-boundary": "^4.0.3",
+        "react-style-object-to-css": "^1.1.2",
         "uuid": "9.0.0"
     },
     "scripts": {

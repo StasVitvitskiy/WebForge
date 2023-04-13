@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { type UiModelBuildingBlock } from "~/Editor/UiModel/UiModelBuildingBlock";
 import { RxCrossCircled } from "react-icons/rx";
 import { omit } from "lodash";
+import { UiEditorContext } from "~/Editor/UiEditorContext";
+import { type EditorBuildingBlock } from "~/Editor/EditorBuildingBlocks/EditorBuildingBlock";
 
 export function CustomAttributes({
     block,
@@ -10,7 +12,14 @@ export function CustomAttributes({
     block: UiModelBuildingBlock;
     onChange: (block: UiModelBuildingBlock) => void;
 }): JSX.Element {
-    const { tagName, style, className, ...attributes } = block.attributes;
+    const editorCtx = useContext(UiEditorContext);
+    const { tagName, style, className, ...attributes } = omit<
+        UiModelBuildingBlock["attributes"]
+    >(
+        block.attributes,
+        (editorCtx?.buildingBlocks?.[block.type] as EditorBuildingBlock)
+            .customAttributes ?? [],
+    );
 
     return (
         <>
